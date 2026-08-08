@@ -1,6 +1,6 @@
 // The public API.
 //
-//   import { load } from 'whorlid';
+//   import { load } from '@whorlid/whorlid';
 //   const wh = await load();                        // offline, no network
 //   const { visitorId, confidence } = await wh.get();
 //

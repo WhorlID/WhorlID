@@ -46,7 +46,7 @@ importers:
 
   packages/react:
     dependencies:
-      whorlid:
+      '@whorlid/whorlid':
         specifier: workspace:^
         version: link:../core
     devDependencies:

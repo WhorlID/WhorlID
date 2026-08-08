@@ -28,7 +28,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter whorlid build
+      - run: pnpm --filter @whorlid/whorlid build
       - run: pnpm demo:build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

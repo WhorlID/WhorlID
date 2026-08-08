@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { load } from 'whorlid';
-import type { GetResult, LoadOptions } from 'whorlid';
+import { load } from '@whorlid/whorlid';
+import type { GetResult, LoadOptions } from '@whorlid/whorlid';
 
 export interface UseVisitorIdResult {
   /** null until collection finishes, or if it failed. */

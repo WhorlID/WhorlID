@@ -5,11 +5,11 @@ exposes, turn them into a stable id, and get a plain object of everything that
 went into it.
 
 ```bash
-npm install whorlid
+npm install @whorlid/whorlid
 ```
 
 ```js
-import { load } from 'whorlid';
+import { load } from '@whorlid/whorlid';
 
 const wh = await load();
 const { visitorId, confidence, components } = await wh.get();
@@ -128,13 +128,13 @@ Authorization: Bearer sk_live_…
 ### npm
 
 ```bash
-npm install whorlid
+npm install @whorlid/whorlid
 ```
 
 ### Script tag
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/whorlid/dist/whorl.v1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@whorlid/whorlid/dist/whorl.v1.js"></script>
 <script>
   whorlid.load()
     .then((wh) => wh.get())

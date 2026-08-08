@@ -4,7 +4,7 @@ import { useVisitorId } from '../src/useVisitorId.js';
 
 const mocks = vi.hoisted(() => ({ get: vi.fn(), load: vi.fn() }));
 
-vi.mock('whorlid', () => ({
+vi.mock('@whorlid/whorlid', () => ({
   load: mocks.load,
 }));
 

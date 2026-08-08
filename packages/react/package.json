@@ -31,7 +31,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "whorlid": "workspace:^"
+    "@whorlid/whorlid": "workspace:^"
   },
   "peerDependencies": {
     "react": ">=17"

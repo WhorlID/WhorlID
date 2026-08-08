@@ -25,8 +25,8 @@ jobs:
       - run: pnpm -r typecheck
       - run: pnpm test
       - run: node scripts/prepare-publish.mjs
-      - name: Publish whorlid
-        run: pnpm --filter whorlid publish --no-git-checks
+      - name: Publish @whorlid/whorlid
+        run: pnpm --filter @whorlid/whorlid publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish @whorlid/react

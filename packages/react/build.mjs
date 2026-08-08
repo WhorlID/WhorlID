@@ -7,7 +7,7 @@ const shared = {
   target: ['es2018'],
   legalComments: 'none',
   // Both are the consuming app's copies, never bundled in.
-  external: ['react', 'whorlid'],
+  external: ['react', '@whorlid/whorlid'],
 };
 
 await build({ ...shared, format: 'esm', outfile: 'dist/index.mjs' });

@@ -1,6 +1,6 @@
 # @whorlid/react
 
-A React hook for [whorlid](https://github.com/WhorlID/WhorlID): a visitor id for
+A React hook for [@whorlid/whorlid](https://github.com/WhorlID/WhorlID): a visitor id for
 the current browser, computed locally with no backend.
 
 ```bash
