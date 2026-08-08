@@ -13,7 +13,7 @@ by earlier collector builds, and canvas is the highest-weighted signal it has.
 Changing any of the following silently breaks matching for every existing
 device on the paid service:
 
-- the canvas draw calls, including the literal `Fingerprint POC \u{1F510} 9.87`
+- the canvas draw calls, including the literal `whorlid \u{1F510} 9.87`
 - the WebGL parameter list (names **and** order) and the extension sort
 - the audio graph (10 kHz triangle, compressor settings, sum over samples
   4500-4999)
@@ -23,7 +23,10 @@ These blocks are marked `DO NOT EDIT - parity-locked` in the source. Adding a
 *new* signal is fine, as long as it goes in `signals-extra.ts` and stays out of
 the connected payload (see below).
 
-Yes, the canvas string says "POC". It is load-bearing, not a typo.
+The canvas text is never displayed. It is drawn to an offscreen canvas and the
+resulting pixels are the signal, so editing the words changes the fingerprint
+of every device in the world. That is what happened between collector versions
+1 and 2, and it cost every already-recorded device one new id.
 
 ## 2. The identify schema (mirrored by hand)
 

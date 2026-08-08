@@ -11,9 +11,12 @@ export interface CollectedSignals {
   [key: string]: unknown;
 }
 
-// Bumped whenever the collected signal shape changes, so server-side records
-// can attribute signal sets to the collector build that produced them.
-export const COLLECTOR_VERSION = '1';
+// Bumped whenever the collected signal shape or its values change, so
+// server-side records can attribute signal sets to the collector build that
+// produced them. Version 2 changed the canvas draw text, which changes every
+// canvas value: a v1 record and a v2 record of the same device will not agree
+// on canvas.
+export const COLLECTOR_VERSION = '2';
 
 export function safe<T>(fn: () => T, fallback: T | null = null): T | null {
   try {
@@ -38,9 +41,9 @@ function canvasFingerprint(): string | null {
     ctx.fillStyle = '#f60';
     ctx.fillRect(125, 1, 62, 20);
     ctx.fillStyle = '#069';
-    ctx.fillText('Fingerprint POC \u{1F510} 9.87', 2, 15);
+    ctx.fillText('whorlid \u{1F510} 9.87', 2, 15);
     ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
-    ctx.fillText('Fingerprint POC \u{1F510} 9.87', 4, 17);
+    ctx.fillText('whorlid \u{1F510} 9.87', 4, 17);
 
     ctx.globalCompositeOperation = 'multiply';
     ctx.fillStyle = 'rgb(255,0,255)';
