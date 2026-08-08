@@ -185,18 +185,28 @@ compare the two.
 
 ## Compared to FingerprintJS
 
-FingerprintJS is the reference implementation in this space and is further
-along on server-side accuracy. The differences that matter when choosing:
+FingerprintJS is the reference implementation in this space. It is older,
+broader, and more battle-tested: more signals, native mobile SDKs, and years of
+accuracy work behind its hosted tier. If you want the safest option, use it.
 
-| | whorlid | FingerprintJS |
-| --- | --- | --- |
-| Licence | MIT | BSL 1.1 since v4 (source-available, non-compete) |
-| Works with no backend | Yes, including a local id | Yes |
-| Hosted tier | WhorlID, EU-hosted | Fingerprint Pro |
-| Runtime dependencies | None | None |
+Licensing is not a reason to choose between them. Both are MIT. FingerprintJS
+spent v4 under BUSL-1.1 and moved back to MIT in v5, so any comparison you read
+claiming otherwise is out of date, including an earlier version of this one.
 
-If your company bans BSL dependencies, that is the practical reason to be here.
-Check FingerprintJS's current licence yourself before relying on this table.
+Honest reasons to use this library instead:
+
+- It is small enough to read in one sitting. Every probe is in a single file
+  and there is no build-time magic, so you can audit exactly what it takes from
+  a visitor before you ship it.
+- It reports what it excludes and why. `HASHED_SIGNALS` is exported, so the
+  boundary between "identifies the device" and "merely observed" is inspectable
+  rather than implied.
+- The hosted tier, if you ever want one, is EU-operated, scopes identifiers per
+  project so the same device gets unrelated ids across customers, and publishes
+  its retention windows.
+
+And a reason not to: this library is new, its signal set is narrower, and
+nobody has yet run it at the scale FingerprintJS has.
 
 ## Development
 

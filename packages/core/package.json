@@ -1,6 +1,6 @@
 {
   "name": "@whorlid/whorlid",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Open-source browser fingerprinting. Works offline with no backend, or connects to the WhorlID API for server-side device matching.",
   "license": "MIT",
