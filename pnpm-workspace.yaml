@@ -1,0 +1,5 @@
+packages:
+  - 'packages/*'
+allowBuilds:
+  # esbuild's install script fetches the platform-specific binary.
+  esbuild: true

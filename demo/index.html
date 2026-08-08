@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>whorlid — see what your browser gives away</title>
+<meta name="description" content="An open-source browser fingerprinting library. This page reads your device signals and builds an id, entirely in your tab.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%23E0A045' stroke-width='1.6'%3E%3Cellipse cx='16' cy='16' rx='4' ry='3.4'/%3E%3Cellipse cx='16' cy='16' rx='8.5' ry='7.4'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='11.4'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="wordmark" href="https://github.com/whorlid/whorlid">whorlid</a>
+  <nav class="bar-links">
+    <a href="https://github.com/whorlid/whorlid">GitHub</a>
+    <a href="https://www.npmjs.com/package/whorlid">npm</a>
+    <a href="https://whorlid.com">WhorlID API</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Live, in this tab</p>
+      <h1>This is what your browser gives away.</h1>
+      <p class="lede">
+        whorlid read the signals below and turned them into an id.
+        No request left your machine. Nothing was stored.
+      </p>
+
+      <div class="id-block" aria-live="polite">
+        <p class="micro-label">Visitor id</p>
+        <p class="visitor-id" id="visitor-id" data-testid="visitor-id">
+          <span class="pending">reading your device…</span>
+        </p>
+        <div class="meter-row">
+          <div class="meter" role="img" aria-label="Confidence" id="meter-track">
+            <span class="meter-fill" id="meter-fill"></span>
+          </div>
+          <p class="meter-value" id="confidence" data-testid="confidence">—</p>
+        </div>
+        <p class="meter-caption">
+          Confidence counts how many high-entropy probes answered. It is coverage, not a
+          probability that two visits are the same device.
+        </p>
+      </div>
+    </div>
+
+    <figure class="print" aria-labelledby="print-caption">
+      <svg id="whorl" viewBox="0 0 320 320" role="img" aria-label="A fingerprint whorl drawn from your visitor id"></svg>
+      <figcaption id="print-caption" class="micro-label">
+        Ridges plotted from your id. Same id, same whorl.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="signals">
+    <div class="section-head">
+      <h2>The signals behind it</h2>
+      <div class="section-tools">
+        <p class="timing" id="timing"></p>
+        <button type="button" id="copy" class="btn-ghost" data-testid="copy">Copy as JSON</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="signal-table">
+        <thead>
+          <tr><th scope="col">Signal</th><th scope="col">Value</th><th scope="col" class="num">Took</th></tr>
+        </thead>
+        <tbody id="signal-rows">
+          <tr class="pending-row"><td colspan="3">Collecting…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">
+      Rows marked <span class="chip chip-hash">id</span> feed the hash. The rest are reported
+      but left out, because they change without the device changing: a rotated phone, a browser
+      update, a flight to another timezone.
+    </p>
+  </section>
+
+  <section class="limits">
+    <h2>What this id cannot do</h2>
+    <dl>
+      <div>
+        <dt>It moves when your browser does.</dt>
+        <dd>
+          A major update, a new GPU driver, or a hardened privacy mode can shift enough signals
+          to mint a fresh id. A local hash has no memory of your last visit, so it cannot tell
+          drift from a different device.
+        </dd>
+      </div>
+      <div>
+        <dt>It is not proof of anything.</dt>
+        <dd>
+          Every signal here is public JavaScript output. It can be replayed or fabricated by
+          anyone willing to script a browser. Treat the id as one risk input, never as an
+          authentication factor.
+        </dd>
+      </div>
+      <div>
+        <dt>It does not know who you are.</dt>
+        <dd>
+          This is a device description, not a person. There is no account, no cookie, and no
+          request: reload the page and this tab starts from nothing again.
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="install">
+    <div class="install-col">
+      <h2>Use it</h2>
+      <pre><code>npm install whorlid</code></pre>
+      <pre><code><span class="k">import</span> { load } <span class="k">from</span> <span class="s">'whorlid'</span>;
+
+<span class="k">const</span> wh = <span class="k">await</span> load();
+<span class="k">const</span> { visitorId, confidence } = <span class="k">await</span> wh.get();</code></pre>
+      <p>MIT licensed, no runtime dependencies, works with no backend at all.</p>
+    </div>
+    <div class="install-col upgrade">
+      <h2>When drift matters</h2>
+      <p>
+        Recognising a device <em>across</em> visits is a server problem: it needs the previous
+        signals to compare against, so one drifting probe does not read as a new device. That is
+        what the hosted API does, and it is the same call with a key.
+      </p>
+      <pre><code><span class="k">const</span> wh = <span class="k">await</span> load({ publicKey: <span class="s">'pk_live_…'</span> });</code></pre>
+      <a class="btn" href="https://whorlid.com">See the WhorlID API</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>MIT licensed. Built by the team behind <a href="https://whorlid.com">WhorlID</a>.</p>
+  <p class="footer-note">This page makes no network requests and sets no cookies.</p>
+</footer>
+
+<script type="module" src="demo.js"></script>
+</body>
+</html>

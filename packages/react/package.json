@@ -1,0 +1,46 @@
+{
+  "name": "@whorlid/react",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "React hook for whorlid: a visitor id for the current browser.",
+  "license": "MIT",
+  "author": "Badr Aldeen",
+  "homepage": "https://github.com/whorlid/whorlid",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whorlid/whorlid.git",
+    "directory": "packages/react"
+  },
+  "bugs": "https://github.com/whorlid/whorlid/issues",
+  "keywords": ["fingerprint", "react", "hook", "visitor-id", "whorlid"],
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "node build.mjs && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "whorlid": "workspace:^"
+  },
+  "peerDependencies": {
+    "react": ">=17"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "react": "^19.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

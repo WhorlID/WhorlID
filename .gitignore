@@ -1,0 +1,11 @@
+node_modules/
+dist/
+demo/dist/
+*.tsbuildinfo
+.DS_Store
+test-results/
+playwright-report/
+
+# Copied in at publish time by scripts/prepare-publish.mjs.
+packages/*/LICENSE
+packages/core/README.md
