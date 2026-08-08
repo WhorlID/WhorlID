@@ -5,13 +5,13 @@
   "description": "Open-source browser fingerprinting. Works offline with no backend, or connects to the WhorlID API for server-side device matching.",
   "license": "MIT",
   "author": "Badr Aldeen",
-  "homepage": "https://github.com/whorlid/whorlid",
+  "homepage": "https://github.com/WhorlID/WhorlID",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/whorlid/whorlid.git",
+    "url": "git+https://github.com/WhorlID/WhorlID.git",
     "directory": "packages/core"
   },
-  "bugs": "https://github.com/whorlid/whorlid/issues",
+  "bugs": "https://github.com/WhorlID/WhorlID/issues",
   "keywords": [
     "fingerprint",
     "fingerprinting",

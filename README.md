@@ -20,7 +20,7 @@ const { visitorId, confidence, components } = await wh.get();
 
 No account, no key, no request. Everything above happened in the tab.
 
-**[See it run on your own browser →](https://whorlid.github.io/whorlid/)**
+**[See it run on your own browser →](https://whorlid.github.io/WhorlID/)**
 
 - MIT licensed. Not source-available, not a delayed-open licence: MIT.
 - Zero runtime dependencies. ~13 kB minified for the browser build.

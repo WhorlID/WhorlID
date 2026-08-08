@@ -1,6 +1,6 @@
 # @whorlid/react
 
-A React hook for [whorlid](https://github.com/whorlid/whorlid): a visitor id for
+A React hook for [whorlid](https://github.com/WhorlID/WhorlID): a visitor id for
 the current browser, computed locally with no backend.
 
 ```bash
@@ -31,6 +31,6 @@ const { visitorId, data } = useVisitorId({ publicKey: 'pk_live_…' });
 
 `react >= 17` is a peer dependency. Full documentation, the signal list, and the
 honest limits of a locally computed id are in the
-[main README](https://github.com/whorlid/whorlid#readme).
+[main README](https://github.com/WhorlID/WhorlID#readme).
 
 MIT licensed.

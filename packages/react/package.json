@@ -5,13 +5,13 @@
   "description": "React hook for whorlid: a visitor id for the current browser.",
   "license": "MIT",
   "author": "Badr Aldeen",
-  "homepage": "https://github.com/whorlid/whorlid",
+  "homepage": "https://github.com/WhorlID/WhorlID",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/whorlid/whorlid.git",
+    "url": "git+https://github.com/WhorlID/WhorlID.git",
     "directory": "packages/react"
   },
-  "bugs": "https://github.com/whorlid/whorlid/issues",
+  "bugs": "https://github.com/WhorlID/WhorlID/issues",
   "keywords": ["fingerprint", "react", "hook", "visitor-id", "whorlid"],
   "sideEffects": false,
   "main": "./dist/index.cjs",
