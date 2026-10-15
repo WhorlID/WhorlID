@@ -28,6 +28,20 @@ import type {
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 
+/** The longest delay a timer can hold (2^31 - 1 ms, about 24.8 days). */
+const MAX_TIMER_MS = 2_147_483_647;
+
+/**
+ * The delay to give the timer, or null for no timeout. A timer cannot hold
+ * Infinity or anything past MAX_TIMER_MS: it fires at once instead, so get()
+ * would give up before the request started. A value that is not a finite
+ * positive number means no timeout, and one too large for a timer is capped.
+ */
+function timerDelay(timeout: number): number | null {
+  if (!Number.isFinite(timeout) || timeout <= 0) return null;
+  return Math.min(timeout, MAX_TIMER_MS);
+}
+
 // Captured at script load: document.currentScript is only valid during the
 // initial synchronous execution of the bundle. Guarded so importing this
 // module under SSR does not throw.
@@ -52,12 +66,13 @@ async function postIdentify(
   endpoint: string,
   publicKey: string,
   signals: Record<string, unknown>,
-  timeoutMs: number
+  timeout: number
 ): Promise<ApiResponse> {
   // A hung API must not hang the page that called get(): abort the request
-  // and the body read after timeoutMs.
+  // and the body read after the timeout.
+  const timeoutMs = timerDelay(timeout);
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const timer = timeoutMs === null ? undefined : setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
