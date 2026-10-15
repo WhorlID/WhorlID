@@ -50,6 +50,16 @@ export interface ConnectedResult {
 
 export type GetResult = OfflineResult | ConnectedResult;
 
+export interface GetOptions {
+  /**
+   * Milliseconds the identify request may take before get() gives up and
+   * rejects. Default 10000. Only connected mode makes a request, so offline
+   * mode ignores it. Treat a rejection as "no device signal" and carry on with
+   * your normal flow.
+   */
+  timeout?: number;
+}
+
 export interface Agent {
-  get(): Promise<GetResult>;
+  get(options?: GetOptions): Promise<GetResult>;
 }

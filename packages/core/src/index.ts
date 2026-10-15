@@ -18,6 +18,7 @@ export type {
   Component,
   Components,
   ConnectedResult,
+  GetOptions,
   GetResult,
   LoadOptions,
   OfflineResult,

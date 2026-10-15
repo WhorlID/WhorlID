@@ -17,7 +17,16 @@ import { collectSignals } from './collector.js';
 import { collectExtendedSignals } from './signals-extra.js';
 import { toIdentifyPayload } from './identify-schema.js';
 import { buildComponents, computeConfidence, computeVisitorId } from './identity.js';
-import type { Agent, ConnectedResult, GetResult, LoadOptions, OfflineResult } from './types.js';
+import type {
+  Agent,
+  ConnectedResult,
+  GetOptions,
+  GetResult,
+  LoadOptions,
+  OfflineResult,
+} from './types.js';
+
+const DEFAULT_TIMEOUT_MS = 10_000;
 
 // Captured at script load: document.currentScript is only valid during the
 // initial synchronous execution of the bundle. Guarded so importing this
@@ -42,24 +51,37 @@ interface ApiResponse {
 async function postIdentify(
   endpoint: string,
   publicKey: string,
-  signals: Record<string, unknown>
+  signals: Record<string, unknown>,
+  timeoutMs: number
 ): Promise<ApiResponse> {
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ publicKey, signals: toIdentifyPayload(signals) }),
-  });
-  if (!res.ok) {
-    let message = `identify failed with status ${res.status}`;
-    try {
-      const body = await res.json();
-      if (body && body.error) message = `identify failed: ${body.error}`;
-    } catch {
-      /* non-JSON error body */
+  // A hung API must not hang the page that called get(): abort the request
+  // and the body read after timeoutMs.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ publicKey, signals: toIdentifyPayload(signals) }),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      let message = `identify failed with status ${res.status}`;
+      try {
+        const body = await res.json();
+        if (body && body.error) message = `identify failed: ${body.error}`;
+      } catch {
+        /* non-JSON error body */
+      }
+      throw new Error(message);
     }
-    throw new Error(message);
+    return (await res.json()) as ApiResponse;
+  } catch (err) {
+    if (controller.signal.aborted) throw new Error(`identify timed out after ${timeoutMs} ms`);
+    throw err;
+  } finally {
+    clearTimeout(timer);
   }
-  return (await res.json()) as ApiResponse;
 }
 
 export function load(options: LoadOptions = {}): Promise<Agent> {
@@ -68,7 +90,7 @@ export function load(options: LoadOptions = {}): Promise<Agent> {
   const wantExtended = options.extendedSignals !== false;
 
   const agent: Agent = {
-    async get(): Promise<GetResult> {
+    async get(getOptions: GetOptions = {}): Promise<GetResult> {
       const durations: Record<string, number> = {};
       const signals = await collectSignals((name, ms) => {
         durations[name] = ms;
@@ -89,7 +111,12 @@ export function load(options: LoadOptions = {}): Promise<Agent> {
         return result;
       }
 
-      const api = await postIdentify(endpoint, options.publicKey, signals);
+      const api = await postIdentify(
+        endpoint,
+        options.publicKey,
+        signals,
+        getOptions.timeout ?? DEFAULT_TIMEOUT_MS
+      );
       const result: ConnectedResult = {
         mode: 'connected',
         visitorId: api.visitorId,

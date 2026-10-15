@@ -170,12 +170,17 @@ Collection runs once per mount, not on every render.
 | `endpoint` | `string` | script origin | Override the identify URL. |
 | `extendedSignals` | `boolean` | `true` | Collect the extended pack. Local only either way. |
 
-### `agent.get(): Promise<GetResult>`
+### `agent.get(options?): Promise<GetResult>`
 
 Returns `OfflineResult` (`mode: 'offline'`) or `ConnectedResult`
 (`mode: 'connected'`), discriminated on `mode`. The connected result adds
 `requestId`, `similarity`, `isReturning`, and `localVisitorId` so you can
 compare the two.
+
+In connected mode `get()` rejects if the API has not answered after
+`options.timeout` milliseconds (default 10000), so a slow or unreachable API
+cannot hang your page. Treat a rejection as "no device signal" and carry on
+with your normal flow. Offline mode makes no request and ignores the timeout.
 
 ### Also exported
 
